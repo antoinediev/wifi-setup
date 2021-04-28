@@ -16,8 +16,8 @@ startServer();
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
   waitForWifi(5, 3000)
-  .then(runNextStageAndExit)
-  .catch(() => {  startAP() });
+  .then(startChromium('/login'))
+  .catch(() => {  startChromium('/welcome'); startAP() });
 
 
 
@@ -70,7 +70,6 @@ function startAP() {
   wifi.scan(10)   // retry up to 10 times
     .then(ssids => preliminaryScanResults = ssids) // remember the networks
     .then(() => wifi.startAP())                    // start AP mode
-    .then(() => startChromium('/welcome'))
     .then(() => {
       console.log('No wifi found; entering AP mode')
     });
@@ -153,7 +152,6 @@ function handleConnect(request, response) {
     .then(() => wait(5000))
     .then(() => wifi.defineNetwork(ssid, password))
     .then(() => waitForWifi(5, 3000))
-    .then(() => startChromium('/login'))
     .catch(() => {
       // XXX not sure how to handle an error here
       console.error("Failed to bring up wifi in handleConnect()");
