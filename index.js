@@ -76,7 +76,7 @@ function startAP() {
 }
 
 function startChromium(path){
-  run('DISPLAY=:0 chromium-browser --kiosk localhost:80'+path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk http://localhost:80'+path)
 }
 
 function startServer(wifiStatus) {
