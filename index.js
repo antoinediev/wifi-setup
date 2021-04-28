@@ -15,8 +15,8 @@ startServer();
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
   waitForWifi(5, 3000)
-  .then(startChromium('/login'),() => {startChromium('/welcome'); startAP()})
-  .catch();
+  .then(() => {startChromium('/login')},() => {startChromium('/welcome'); startAP()})
+  .catch(console.log("in catch (rey misterio tu coco)"));
 
 
 
@@ -75,6 +75,7 @@ function startAP() {
 }
 
 function startChromium(path){
+  console.log('on veut ouvrir: '+path)
   run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk http://localhost:80'+path)
 }
 
