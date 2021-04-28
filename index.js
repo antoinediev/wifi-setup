@@ -11,12 +11,15 @@ var wait = require('./wait.js');
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
 
+startServer();
 // Wait until we have a working wifi connection. Retry every 3 seconds up
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
-waitForWifi(5, 3000)
+  waitForWifi(5, 3000)
   .then(runNextStageAndExit)
-  .catch(() => { startServer(); startAP() });
+  .catch(() => {  startAP() });
+
+
 
 // Return a promise, then check every interval ms for a wifi connection.
 // Resolve the promise when we're connected. Or, if we aren't connected
@@ -67,9 +70,14 @@ function startAP() {
   wifi.scan(10)   // retry up to 10 times
     .then(ssids => preliminaryScanResults = ssids) // remember the networks
     .then(() => wifi.startAP())                    // start AP mode
+    .then(() => startChromium('/welcome'))
     .then(() => {
       console.log('No wifi found; entering AP mode')
     });
+}
+
+function startChromium(path){
+  run('DISPLAY=:0 chromium-browser --kiosk localhost:80'+path)
 }
 
 function startServer(wifiStatus) {
@@ -83,11 +91,16 @@ function startServer(wifiStatus) {
   server.get('/', handleWifiSetup);
   server.post('/connect', handleConnect);
   server.get('/login',handleLogin)
+  server.get('/welcome', handleWelcome)
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
   // XXX: for first-time this is on an open access point.
   server.listen(80);
   console.log('HTTP server listening on port 80');
+}
+
+function handleWelcome(request, response){
+  response.send(getTemplate('./templates/welcome.hbs'));
 }
 
 function getTemplate(filename) {
@@ -98,7 +111,7 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
-  // la logique de login ici
+  response.send(getTemplate('./templates/login.hbs'));
 }
 
 // This function handles requests for the root URL '/'.
@@ -140,7 +153,7 @@ function handleConnect(request, response) {
     .then(() => wait(5000))
     .then(() => wifi.defineNetwork(ssid, password))
     .then(() => waitForWifi(5, 3000))
-    .then(() => runNextStageAndExit())
+    .then(() => startChromium('/login'))
     .catch(() => {
       // XXX not sure how to handle an error here
       console.error("Failed to bring up wifi in handleConnect()");
