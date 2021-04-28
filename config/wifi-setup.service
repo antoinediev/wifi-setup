@@ -9,7 +9,7 @@ StandardError=journal
 # Edit this line, if needed, to specify where you installed the server
 WorkingDirectory=/home/pi/wifi-setup
 # Edit this line, if needed, to set the correct path to node
-ExecStart=/usr/local/bin/node index.js
+ExecStart=/usr/bin/nodejs index.js
 
 [Install]
 WantedBy=multi-user.target
