@@ -100,7 +100,7 @@ function startServer(wifiStatus) {
 }
 
 function handleWelcome(request, response){
-  response.send(path.join('./templates/welcome.html'));
+  response.sendfile('./templates/welcome.html');
   //response.send('<html><h1>Welcome 😛</h1></html>');
 }
 
@@ -112,7 +112,7 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
-  response.send(path.join('./templates/login.html'));
+  response.sendfile('./templates/login.html');
   //response.send('<html><h1>Login 🤓</h1></html>');
 }
 
