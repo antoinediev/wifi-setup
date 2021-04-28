@@ -89,8 +89,8 @@ function startServer(wifiStatus) {
   // Define the handler methods for the various URLs we handle
   server.get('/', handleWifiSetup);
   server.post('/connect', handleConnect);
-  server.get('/login',handleLogin)
-  server.get('/welcome', handleWelcome)
+  server.get('/login',handleLogin);
+  server.get('/welcome', handleWelcome);
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
   // XXX: for first-time this is on an open access point.
@@ -99,7 +99,8 @@ function startServer(wifiStatus) {
 }
 
 function handleWelcome(request, response){
-  response.send(getTemplate('./templates/welcome.hbs'));
+  //response.send(getTemplate('./templates/welcome.hbs'));
+  response.send('<html><h1>Welcome 😛</h1></html>');
 }
 
 function getTemplate(filename) {
@@ -110,7 +111,8 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
-  response.send(getTemplate('./templates/login.hbs'));
+  //response.send(getTemplate('./templates/login.hbs'));
+  response.send('<html><h1>Login 🤓</h1></html>');
 }
 
 // This function handles requests for the root URL '/'.
