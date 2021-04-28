@@ -41,7 +41,7 @@ sed -e '/^$/d;/\\x00/d'`,
   // The name of the AP is defined in a config file elsewhere
   // Note that we use different commands on Yocto systems than
   // we do on Raspbian systems
-  startAP: 'ifconfig wlan0 10.0.0.1 && systemctl enable hostapd && systemctl enable udhcpd && systemctl start hostapd && systemctl start udhcpd',
+  startAP: 'ifconfig wlan0 10.0.0.1 && systemctl start hostapd && systemctl start udhcpd',
 
   // Stop broadcasting an AP and attempt to reconnect to local wifi
   stopAP: 'systemctl stop udhcpd && systemctl stop hostapd && ifconfig wlan0 0.0.0.0',

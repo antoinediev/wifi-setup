@@ -14,7 +14,7 @@ var preliminaryScanResults;
 // Wait until we have a working wifi connection. Retry every 3 seconds up
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
-waitForWifi(20, 3000)
+waitForWifi(5, 3000)
   .then(runNextStageAndExit)
   .catch(() => { startServer(); startAP() });
 
@@ -82,7 +82,7 @@ function startServer(wifiStatus) {
   // Define the handler methods for the various URLs we handle
   server.get('/', handleWifiSetup);
   server.post('/connect', handleConnect);
-
+  server.get('/login',handleLogin)
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
   // XXX: for first-time this is on an open access point.
@@ -96,6 +96,10 @@ function getTemplate(filename) {
 
 var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
+
+function handleLogin(request, response) {
+  // la logique de login ici
+}
 
 // This function handles requests for the root URL '/'.
 function handleWifiSetup(request, response) {
