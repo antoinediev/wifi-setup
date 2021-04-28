@@ -6,6 +6,7 @@ var run = require('./run.js');
 var platform = require('./platform.js');
 var wifi = require('./wifi.js');
 var wait = require('./wait.js');
+var path = require('path')
 
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
@@ -99,7 +100,7 @@ function startServer(wifiStatus) {
 }
 
 function handleWelcome(request, response){
-  response.send(getTemplate('./templates/welcome.hbs'));
+  response.send(path.join('./templates/welcome.html'));
   //response.send('<html><h1>Welcome 😛</h1></html>');
 }
 
@@ -111,7 +112,7 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
-  response.send(getTemplate('./templates/login.hbs'));
+  response.send(path.join('./templates/login.html'));
   //response.send('<html><h1>Login 🤓</h1></html>');
 }
 
