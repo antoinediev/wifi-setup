@@ -135,7 +135,7 @@ function handleConnect(request, response) {
     .then(() => wifi.stopAP())
     .then(() => wait(5000))
     .then(() => wifi.defineNetwork(ssid, password))
-    .then(() => waitForWifi(20, 3000))
+    .then(() => waitForWifi(5, 3000))
     .then(() => runNextStageAndExit())
     .catch(() => {
       // XXX not sure how to handle an error here
