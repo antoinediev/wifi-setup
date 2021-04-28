@@ -154,6 +154,7 @@ function handleConnect(request, response) {
     .then(() => wait(5000))
     .then(() => wifi.defineNetwork(ssid, password))
     .then(() => waitForWifi(5, 3000))
+    .then(() => {console.log('in Success');startChromium('/login')},() => {console.log('in failure');startChromium('/welcome'); startAP()})
     .catch(() => {
       // XXX not sure how to handle an error here
       console.error("Failed to bring up wifi in handleConnect()");
