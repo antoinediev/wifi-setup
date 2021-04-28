@@ -6,8 +6,6 @@ var run = require('./run.js');
 var platform = require('./platform.js');
 var wifi = require('./wifi.js');
 var wait = require('./wait.js');
-var path = require('path')
-
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
@@ -17,8 +15,8 @@ startServer();
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
   waitForWifi(5, 3000)
-  .then(startChromium('/login'))
-  .catch(() => {  startChromium('/welcome'); startAP() });
+  .then(startChromium('/login'),() => {startChromium('/welcome'); startAP()})
+  .catch();
 
 
 
