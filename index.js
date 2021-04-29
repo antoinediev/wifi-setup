@@ -103,6 +103,10 @@ function startServer(wifiStatus) {
   server.listen(80, function () {
     console.log('Votre app est disponible sur localhost:80 !')
    })
+
+   io.on('connection', (socket) =>{
+    console.log(`Connecté au client ${socket.id}`)
+ })
   console.log('HTTP server listening on port 80');
 }
 
