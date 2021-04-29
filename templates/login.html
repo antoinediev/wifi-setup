@@ -21,7 +21,6 @@
 <script>
 
     const socket = io();
-    var qrcode = require('qrcode');
 
     socket.on('ip', function(ip){
         document.getElementById('ip').innerHTML = "Bonjour, rendez vous sur cette URL : " + ip+"/loginBoardy";
