@@ -137,7 +137,7 @@ function loginBoardy(request, response) {
   })
   .then(res => {
     console.log(`statusCode: ${res.statusCode}`)
-    console.log(res.body.dashboard_url)
+    console.log(res)
   })
   .catch(error => {
     console.error(error)
