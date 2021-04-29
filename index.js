@@ -92,7 +92,8 @@ function startServer(wifiStatus) {
   server.get('/', handleWifiSetup);
   server.post('/connect', handleConnect);
   server.get('/login',handleLogin);
-  server.get('/loginPage',handleLoginPage)
+  server.get('/loginBoardy',handleLoginPage)
+  server.post('/loginPage',loginBoardy)
   server.get('/welcome', handleWelcome);
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
@@ -118,18 +119,21 @@ function handleLogin(request, response) {
   wifi.getIPAddress().then(results => {
     addressIp = results;
     console.log("ip : " + addressIp)
-    console.log('<html><h1>Login</h1><h1 id="ip"> Ici IP : '+addressIp+'</h1></html>');
     response.send('<html><h1>Login</h1><h1 id="ip"> Ici IP : '+addressIp+'</h1></html>');
   })
 }
 
-function handleLoginPage(request, response) {
 
-  let email = request.body.email
-  let mdp = request.body.pass
+function handleLoginPage(request, response){
+  response.sendfile('/templates/loginPage.html')
+}
+function loginBoardy(request, response) {
+
+  var email = request.body.email;
+  var password = request.body.password;
   axios.post('https://boardy.dev-martin.com/api/auth', {
     email: email,
-    password : mdp
+    password : password
   })
   .then(res => {
     console.log(`statusCode: ${res.statusCode}`)
