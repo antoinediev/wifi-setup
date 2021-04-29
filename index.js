@@ -108,7 +108,7 @@ function startServer(wifiStatus) {
       addressIp = results;
       console.log("ip : " + addressIp)
       io.emit('ip',addressIp);
-      qrcode.toDataUrl(addressIp+"/loginBoardy",{width: 400},function(err,url){
+      qrcode.toDataURL(addressIp+"/loginBoardy",{width: 400},function(err,url){
         io.emit('qrcode',url);
     });
     })
