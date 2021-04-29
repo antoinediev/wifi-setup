@@ -125,7 +125,7 @@ function handleLogin(request, response) {
 
 
 function handleLoginPage(request, response){
-  response.sendfile('/templates/loginPage.html')
+  response.sendfile('./templates/loginPage.html')
 }
 function loginBoardy(request, response) {
 
