@@ -12,6 +12,8 @@
 
 
     <h1 id='ip'></h1>
+    <h1>Sinon vous pouvez scanner ce QRCode</h1>
+    <img id="qrcode" />
 
 </html>
 
@@ -19,9 +21,13 @@
 <script>
 
     const socket = io();
+    var qrcode = require('qrcode');
 
     socket.on('ip', function(ip){
-        document.getElementById('ip').innerHTML = ip;
+        document.getElementById('ip').innerHTML = "Bonjour, rendez vous sur cette URL : " + ip+"/loginBoardy";
+        qrcode.toDataUrl(url,{width: 400},function(err,url){
+            document.getElementById('qrcode').src = url
+        });
        console.log(ip)
     });
 
