@@ -114,7 +114,11 @@ var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
   console.log(wifi.getIPAddress())
-  response.sendfile('./templates/login.html?ip='+wifi.getIPAddress());
+  let addressIp = "test";
+  wifi.getIPAddress().then(results => {
+    addressIp = results.body;
+  })
+  response.sendfile('./templates/login.html?ip='+addressIp);
   //response.send('<html><h1>Login 🤓</h1></html>');
 }
 
