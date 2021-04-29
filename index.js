@@ -113,6 +113,7 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
+  let addressIp ="";
   wifi.getIPAddress().then(results => {
     addressIp = results;
     console.log("ip : " + addressIp)
