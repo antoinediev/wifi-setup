@@ -11,6 +11,8 @@
     <h1>Hello</h1>
 
 
+    <h1 id='ip'></h1>
+
 </html>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -19,6 +21,14 @@
     const socket = io();
 
     socket.on('ip', function(ip){
+        document.getElementById('ip').innerHTML = ip;
        console.log(ip)
     });
+
+    socket.on('redi', function(url){
+
+       console.log(url)
+    });
+
+    
 </script>
