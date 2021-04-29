@@ -141,3 +141,8 @@ function getKnownNetworks() {
   return run(platform.getKnownNetworks)
     .then(out => out.length ? out.split('\n') : []);
 }
+
+
+function getIpAdress(){
+  return run(platform.ipAdress);
+}

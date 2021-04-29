@@ -113,6 +113,7 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
+  console.log(getIpAdress())
   response.sendfile('./templates/login.html');
   //response.send('<html><h1>Login 🤓</h1></html>');
 }
