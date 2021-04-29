@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/davidflanagan/wifi-setup#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "handlebars": "^4.0.5"

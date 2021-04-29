@@ -6,6 +6,7 @@ var run = require('./run.js');
 var platform = require('./platform.js');
 var wifi = require('./wifi.js');
 var wait = require('./wait.js');
+const axios = require('axios');
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
@@ -76,7 +77,7 @@ function startAP() {
 
 function startChromium(path){
   console.log('on veut ouvrir: '+path)
-  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk http://localhost:80'+path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser  http://localhost:80'+path)
 }
 
 function startServer(wifiStatus) {
@@ -90,6 +91,7 @@ function startServer(wifiStatus) {
   server.get('/', handleWifiSetup);
   server.post('/connect', handleConnect);
   server.get('/login',handleLogin);
+  server.get('/loginPage',handleLoginPage)
   server.get('/welcome', handleWelcome);
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
@@ -113,6 +115,23 @@ var connectTemplate = getTemplate('./templates/connect.hbs');
 function handleLogin(request, response) {
   response.sendfile('./templates/login.html');
   //response.send('<html><h1>Login 🤓</h1></html>');
+}
+
+function handleLoginPage(request, response) {
+
+  let email = request.body.email
+  let mdp = request.body.pass
+  axios.post('https://boardy.dev-martin.com/api/auth', {
+    email: email,
+    password : mdp
+  })
+  .then(res => {
+    console.log(`statusCode: ${res.statusCode}`)
+    console.log(res.body.dashboard_url)
+  })
+  .catch(error => {
+    console.error(error)
+  })
 }
 
 // This function handles requests for the root URL '/'.
