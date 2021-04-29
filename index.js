@@ -85,6 +85,7 @@ function startChromium(path){
 
 function startServer(wifiStatus) {
   // Now start up the express server
+  var qrcode = require('qrcode');
   var app = Express();
   const server = require('http').Server(app)
   io = require('socket.io')(server)
