@@ -17,4 +17,8 @@
 <script>
 
     const socket = io();
+
+    socket.on('ip', function(ip){
+       console.log(ip)
+    });
 </script>

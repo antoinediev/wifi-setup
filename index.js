@@ -102,7 +102,11 @@ function startServer(wifiStatus) {
   // XXX: for first-time this is on an open access point.
 
   io.on('connection', (socket) =>{
-    console.log(`Connecté au client ${socket.id}`)
+    wifi.getIPAddress().then(results => {
+      addressIp = results;
+      console.log("ip : " + addressIp)
+      io.emit('ip',addressIp);
+    })
  } )
 
   server.listen(80, function () {
@@ -125,13 +129,7 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
-  let addressIp ="";
-  wifi.getIPAddress().then(results => {
-    addressIp = results;
-    console.log("ip : " + addressIp)
     response.sendfile('./templates/login.html');
-
-  })
 }
 
 
