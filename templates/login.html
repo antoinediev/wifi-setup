@@ -25,7 +25,7 @@
 
     socket.on('ip', function(ip){
         document.getElementById('ip').innerHTML = "Bonjour, rendez vous sur cette URL : " + ip+"/loginBoardy";
-        qrcode.toDataUrl(url,{width: 400},function(err,url){
+        qrcode.toDataUrl(ip+"/loginBoardy",{width: 400},function(err,url){
             document.getElementById('qrcode').src = url
         });
        console.log(ip)
