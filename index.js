@@ -122,8 +122,8 @@ function handleLogin(request, response) {
   wifi.getIPAddress().then(results => {
     addressIp = results;
     console.log("ip : " + addressIp)
-    response.sendFile('./templates/login.html');
-    responseRPI = response;
+    response.sendfile('./templates/login.html');
+
   })
 }
 
