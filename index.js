@@ -138,7 +138,7 @@ function loginBoardy(request, response) {
   .then(res => {
     console.log(`statusCode: ${res.statusCode}`)
     console.log(res.data.dashboard_url)
-    res.redirect(res.data.dashboard_url)
+    response.redirect(res.data.dashboard_url)
   })
   .catch(error => {
     console.error(error)
