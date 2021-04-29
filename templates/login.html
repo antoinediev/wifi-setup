@@ -9,5 +9,12 @@
 
     <h1>Login 🤓</h1>
 
+    <h1 id="ip"></h1>
+
 
 </html>
+
+<script>
+    var wifi = require('./wifi.js');
+    document.getElementById("ip").innerHTML = wifi.getIPAddress();
+</script>
