@@ -8,6 +8,7 @@ var wifi = require('./wifi.js');
 var wait = require('./wait.js');
 const axios = require('axios');
 const { ipAdress } = require('./platforms/default.js');
+var url = ""
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
@@ -104,7 +105,6 @@ function startServer(wifiStatus) {
 
 function handleWelcome(request, response){
   response.sendfile('./templates/welcome.html');
-  //response.send('<html><h1>Welcome 😛</h1></html>');
 }
 
 function getTemplate(filename) {
@@ -120,6 +120,10 @@ function handleLogin(request, response) {
     addressIp = results;
     console.log("ip : " + addressIp)
     response.send('<html><h1>Login</h1><h1 id="ip"> Ici IP : '+addressIp+'</h1></html>');
+    while(url == ""){
+      await sleep(2000);
+    }
+    response.redirect(url);
   })
 }
 
