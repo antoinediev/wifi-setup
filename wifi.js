@@ -8,6 +8,7 @@ exports.startAP = startAP;
 exports.stopAP = stopAP;
 exports.defineNetwork = defineNetwork;
 exports.getKnownNetworks = getKnownNetworks;
+exports.getIPAddress = getIPAddress;
 
 /*
  * Determine whether we have a wifi connection with the `wpa_cli
@@ -143,6 +144,6 @@ function getKnownNetworks() {
 }
 
 
-function getIpAdress(){
+function getIPAddress(){
   return run(platform.ipAdress);
 }
