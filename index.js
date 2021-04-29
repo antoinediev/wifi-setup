@@ -8,7 +8,7 @@ var wifi = require('./wifi.js');
 var wait = require('./wait.js');
 const axios = require('axios');
 const { ipAdress } = require('./platforms/default.js');
-var responseRPI = ""
+
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
@@ -84,22 +84,25 @@ function startChromium(path){
 
 function startServer(wifiStatus) {
   // Now start up the express server
-  var server = Express();
-
+  var app = Express();
+  const server = require('http').Server(app)
+  const io = require('socket.io')(server)
   // When we get POSTs, handle the body like this
-  server.use(bodyParser.urlencoded({extended:false}));
+  app.use(bodyParser.urlencoded({extended:false}));
 
   // Define the handler methods for the various URLs we handle
-  server.get('/', handleWifiSetup);
-  server.post('/connect', handleConnect);
-  server.get('/login',handleLogin);
-  server.get('/loginBoardy',handleLoginPage)
-  server.post('/loginPage',loginBoardy)
-  server.get('/welcome', handleWelcome);
+  app.get('/', handleWifiSetup);
+  app.post('/connect', handleConnect);
+  app.get('/login',handleLogin);
+  app.get('/loginBoardy',handleLoginPage)
+  app.post('/loginPage',loginBoardy)
+  app.get('/welcome', handleWelcome);
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
   // XXX: for first-time this is on an open access point.
-  server.listen(80);
+  server.listen(80, function () {
+    console.log('Votre app est disponible sur localhost:80 !')
+   })
   console.log('HTTP server listening on port 80');
 }
 
@@ -119,7 +122,7 @@ function handleLogin(request, response) {
   wifi.getIPAddress().then(results => {
     addressIp = results;
     console.log("ip : " + addressIp)
-    response.send('<html><h1>Login</h1><h1 id="ip"> Ici IP : '+addressIp+'</h1></html>');
+    response.send('./templates/login.html');
     responseRPI = response;
   })
 }
