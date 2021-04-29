@@ -121,7 +121,6 @@ function handleLogin(request, response) {
     console.log("ip : " + addressIp)
     response.send('<html><h1>Login</h1><h1 id="ip"> Ici IP : '+addressIp+'</h1></html>');
     while(url == ""){
-      await sleep(2000);
     }
     response.redirect(url);
   })
