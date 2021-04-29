@@ -23,7 +23,7 @@
     const socket = io();
 
     socket.on('ip', function(ip){
-        document.getElementById('ip').innerHTML = "Bonjour, rendez vous sur cette URL : " + ip+"/loginBoardy";
+        document.getElementById('ip').innerHTML = "Bonjour, rendez vous sur cette URL : " + "http://"+ip+"/loginBoardy";
         
        console.log(ip)
     });
