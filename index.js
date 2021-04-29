@@ -100,13 +100,16 @@ function startServer(wifiStatus) {
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
   // XXX: for first-time this is on an open access point.
+
+  io.on('connection', (socket) =>{
+    console.log(`Connecté au client ${socket.id}`)
+ } )
+
   server.listen(80, function () {
     console.log('Votre app est disponible sur localhost:80 !')
    })
 
-   io.on('connection', (socket) =>{
-    console.log(`Connecté au client ${socket.id}`)
- })
+   
   console.log('HTTP server listening on port 80');
 }
 
