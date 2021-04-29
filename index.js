@@ -8,7 +8,7 @@ var wifi = require('./wifi.js');
 var wait = require('./wait.js');
 const axios = require('axios');
 const { ipAdress } = require('./platforms/default.js');
-var url = ""
+var responseRPI = ""
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
@@ -120,9 +120,7 @@ function handleLogin(request, response) {
     addressIp = results;
     console.log("ip : " + addressIp)
     response.send('<html><h1>Login</h1><h1 id="ip"> Ici IP : '+addressIp+'</h1></html>');
-    while(url == ""){
-    }
-    response.redirect(url);
+    responseRPI = response;
   })
 }
 
@@ -141,7 +139,7 @@ function loginBoardy(request, response) {
   .then(res => {
     console.log(`statusCode: ${res.statusCode}`)
     console.log(res.data.dashboard_url)
-    response.redirect(res.data.dashboard_url)
+    responseRPI.redirect(res.data.dashboard_url)
   })
   .catch(error => {
     console.error(error)
