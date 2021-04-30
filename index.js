@@ -187,6 +187,7 @@ function loginBoardy(request, response) {
         if (err) throw err;
         console.log('Saved!');
       });
+      response.send("recieved your request!");
     }
   })
   .catch(error => {
