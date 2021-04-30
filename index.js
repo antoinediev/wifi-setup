@@ -10,6 +10,7 @@ const axios = require('axios');
 const { ipAdress } = require('./platforms/default.js');
 var io = "";
 var fs = require('fs');
+const { networkInterfaces } = require('os');
 
 
 
@@ -21,37 +22,37 @@ startServer();
 // Wait until we have a working wifi connection. Retry every 3 seconds up
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
-  waitForWifi(5, 3000)
-  .then(() => {console.log('in Success');loadBoardy()},() => {console.log('in failure');startChromium('/welcome'); startAP()})
+waitForWifi(5, 3000)
+  .then(() => { console.log('in Success'); loadBoardy() }, () => { console.log('in failure'); startChromium('/welcome'); startAP() })
   .catch(console.log("in catch (rey mysterio tu coco)"));
 
 
 
-function loadBoardy(){
+function loadBoardy() {
   var tokenPath = './token.txt';
   try {
     if (fs.existsSync(tokenPath)) {
-      fs.readFile(tokenPath, 'utf8' , (err, data) => {
+      fs.readFile(tokenPath, 'utf8', (err, data) => {
         if (err) {
           console.error(err)
           return
         }
         openDashboard(data)
       })
-    }else{
+    } else {
       startChromium('/login')
     }
-  } catch(err) {
+  } catch (err) {
     console.error(err)
   }
-  
+
 }
 
 // Return a promise, then check every interval ms for a wifi connection.
 // Resolve the promise when we're connected. Or, if we aren't connected
 // after maxAttempts attempts, then reject the promise
 function waitForWifi(maxAttempts, interval) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var attempts = 0;
     check();
 
@@ -101,14 +102,14 @@ function startAP() {
     });
 }
 
-function startChromium(path){
-  console.log('on veut ouvrir: '+path)
-  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk http://localhost:80'+path)
+function startChromium(path) {
+  console.log('on veut ouvrir: ' + path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk http://localhost:80' + path)
 }
 
-function openDashboard(path){
-  console.log('on veut ouvrir: '+path)
-  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk ' +path)
+function openDashboard(path) {
+  console.log('on veut ouvrir: ' + path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk ' + path)
 }
 
 function startServer(wifiStatus) {
@@ -119,40 +120,61 @@ function startServer(wifiStatus) {
   app.use(Express.static(__dirname + '/public'));
   io = require('socket.io')(server)
   // When we get POSTs, handle the body like this
-  app.use(bodyParser.urlencoded({extended:false}));
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   // Define the handler methods for the various URLs we handle
   app.get('/', handleWifiSetup);
   app.post('/connect', handleConnect);
-  app.get('/login',handleLogin);
-  app.get('/loginBoardy',handleLoginPage)
-  app.post('/loginPage',loginBoardy)
+  app.get('/login', handleLogin);
+  app.get('/loginBoardy', handleLoginPage)
+  app.post('/loginPage', loginBoardy)
   app.get('/welcome', handleWelcome);
   // And start listening for connections
   // XXX: note that we are HTTP only... is this a security issue?
   // XXX: for first-time this is on an open access point.
 
-  io.on('connection', (socket) =>{
-    setTimeout(function(){ console.log("Wait IP") }, 60000);
-    wifi.getIPAddress().then(results => {
-      addressIp = results;
+  io.on('connection', (socket) => {
+      var addressIp = getIp()
       console.log("ip : " + addressIp)
-      io.emit('ip',addressIp);
-      qrcode.toDataURL("http://"+addressIp+"/loginBoardy",{width: 200},function(err,url){
-        io.emit('qrcode',url);
+      io.emit('ip', addressIp);
+      qrcode.toDataURL("http://" + addressIp + "/loginBoardy", { width: 200 }, function (err, url) {
+        io.emit('qrcode', url);
       });
-    })
- } )
+    
+  })
 
   server.listen(80, function () {
     console.log('Votre app est disponible sur localhost:80 !')
-   })
+  })
 
-   
+
   console.log('HTTP server listening on port 80');
 }
 
-function handleWelcome(request, response){
+function getIp() {
+  var ip = "";
+  while (ip == "") {
+    const nets = networkInterfaces();
+    const results = Object.create(null); // Or just '{}', an empty object
+
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name]) {
+        // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+        if (net.family === 'IPv4' && !net.internal) {
+          if (!results[name]) {
+            results[name] = [];
+          }
+          results[name].push(net.address);
+        }
+      }
+    }
+    if(results[wlan0]!=""){
+      ip = results[wlan0];
+    }
+  }
+}
+
+function handleWelcome(request, response) {
   response.sendfile('./templates/welcome.html');
 }
 
@@ -164,11 +186,11 @@ var wifiSetupTemplate = getTemplate('./templates/wifiSetup.hbs');
 var connectTemplate = getTemplate('./templates/connect.hbs');
 
 function handleLogin(request, response) {
-    response.sendfile('./templates/login.html');
+  response.sendfile('./templates/login.html');
 }
 
 
-function handleLoginPage(request, response){
+function handleLoginPage(request, response) {
   response.sendfile('./templates/loginPage.html')
 }
 function loginBoardy(request, response) {
@@ -177,23 +199,23 @@ function loginBoardy(request, response) {
   var password = request.body.password;
   axios.post('https://boardy.dev-martin.com/api/auth', {
     email: email,
-    password : password
+    password: password
   })
-  .then(res => {
-    console.log(`statusCode: ${res.statusCode}`)
-    console.log(res.data.dashboard_url)
-    if(res.data.token){
-      io.emit('redi',res.data.dashboard_url);
-      fs.writeFile('token.txt', res.data.dashboard_url, function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-      });
-      response.sendfile('./templates/connected.html');
-    }
-  })
-  .catch(error => {
-    console.error(error)
-  })
+    .then(res => {
+      console.log(`statusCode: ${res.statusCode}`)
+      console.log(res.data.dashboard_url)
+      if (res.data.token) {
+        io.emit('redi', res.data.dashboard_url);
+        fs.writeFile('token.txt', res.data.dashboard_url, function (err) {
+          if (err) throw err;
+          console.log('Saved!');
+        });
+        response.sendfile('./templates/connected.html');
+      }
+    })
+    .catch(error => {
+      console.error(error)
+    })
 }
 
 // This function handles requests for the root URL '/'.
@@ -223,7 +245,7 @@ function handleConnect(request, response) {
   var ssid = request.body.ssid.trim();
   var password = request.body.password.trim();
 
-  response.send(connectTemplate({ssid: ssid}));
+  response.send(connectTemplate({ ssid: ssid }));
 
   // Wait before switching networks to make sure the response gets through.
   // And also wait to be sure that the access point is fully down before
@@ -235,7 +257,7 @@ function handleConnect(request, response) {
     .then(() => wait(5000))
     .then(() => wifi.defineNetwork(ssid, password))
     .then(() => waitForWifi(5, 3000))
-    .then(() => {console.log('in Success');startChromium('/login')},() => {console.log('in failure');startChromium('/welcome'); startAP()})
+    .then(() => { console.log('in Success'); startChromium('/login') }, () => { console.log('in failure'); startChromium('/welcome'); startAP() })
     .catch(() => {
       // XXX not sure how to handle an error here
       console.error("Failed to bring up wifi in handleConnect()");
