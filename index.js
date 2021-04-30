@@ -168,8 +168,8 @@ function getIp() {
         }
       }
     }
-    if(results[wlan0]!=""){
-      ip = results[wlan0];
+    if(results["wlan0"]!=""){
+      ip = results["wlan0"];
     }
   }
 }
