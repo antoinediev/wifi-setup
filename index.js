@@ -103,12 +103,12 @@ function startAP() {
 
 function startChromium(path){
   console.log('on veut ouvrir: '+path)
-  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk http://localhost:80'+path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser http://localhost:80'+path)
 }
 
 function openDashboard(path){
   console.log('on veut ouvrir: '+path)
-  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk ' +path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser ' +path)
 }
 
 function startServer(wifiStatus) {
@@ -137,7 +137,7 @@ function startServer(wifiStatus) {
       addressIp = results;
       console.log("ip : " + addressIp)
       io.emit('ip',addressIp);
-      qrcode.toDataURL("http://"+addressIp+"/loginBoardy",{width: 400},function(err,url){
+      qrcode.toDataURL("http://"+addressIp+"/loginBoardy",{width: 200},function(err,url){
         io.emit('qrcode',url);
       });
     })
