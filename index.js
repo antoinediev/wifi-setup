@@ -9,6 +9,9 @@ var wait = require('./wait.js');
 const axios = require('axios');
 const { ipAdress } = require('./platforms/default.js');
 var io = "";
+var fs = require('fs');
+
+
 
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
@@ -154,6 +157,10 @@ function loginBoardy(request, response) {
     console.log(res.data.dashboard_url)
     if(res.data.token){
       io.emit('redi',res.data.dashboard_url);
+      fs.writeFile('token.txt', res.data.dashboard_url, function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+      });
     }
   })
   .catch(error => {
