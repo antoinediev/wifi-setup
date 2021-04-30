@@ -116,7 +116,7 @@ function startServer(wifiStatus) {
   var qrcode = require('qrcode');
   var app = Express();
   const server = require('http').Server(app)
-  app.use(express.static(__dirname + '/public'));
+  app.use(Express.static(__dirname + '/public'));
   io = require('socket.io')(server)
   // When we get POSTs, handle the body like this
   app.use(bodyParser.urlencoded({extended:false}));
