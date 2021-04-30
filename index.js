@@ -22,10 +22,29 @@ startServer();
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
   waitForWifi(5, 3000)
-  .then(() => {console.log('in Success');startChromium('/login')},() => {console.log('in failure');startChromium('/welcome'); startAP()})
+  .then(() => {console.log('in Success');loadBoardy()},() => {console.log('in failure');startChromium('/welcome'); startAP()})
   .catch(console.log("in catch (rey mysterio tu coco)"));
 
 
+
+function loadBoardy(){
+  try {
+    if (fs.existsSync(path)) {
+      fs.readFile('./token.txt', 'utf8' , (err, data) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        startChromium(data)
+      })
+    }else{
+      startChromium('/login')
+    }
+  } catch(err) {
+    console.error(err)
+  }
+  
+}
 
 // Return a promise, then check every interval ms for a wifi connection.
 // Resolve the promise when we're connected. Or, if we aren't connected
