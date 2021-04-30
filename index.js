@@ -28,9 +28,10 @@ startServer();
 
 
 function loadBoardy(){
+  var tokenPath = './token.txt';
   try {
-    if (fs.existsSync(path)) {
-      fs.readFile('./token.txt', 'utf8' , (err, data) => {
+    if (fs.existsSync(tokenPath)) {
+      fs.readFile(tokenPath, 'utf8' , (err, data) => {
         if (err) {
           console.error(err)
           return
