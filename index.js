@@ -36,7 +36,7 @@ function loadBoardy(){
           console.error(err)
           return
         }
-        startChromium(data)
+        openDashboard(data)
       })
     }else{
       startChromium('/login')
@@ -104,6 +104,11 @@ function startAP() {
 function startChromium(path){
   console.log('on veut ouvrir: '+path)
   run('sudo -u pi DISPLAY=:0 chromium-browser  http://localhost:80'+path)
+}
+
+function openDashboard(path){
+  console.log('on veut ouvrir: '+path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser ' +path)
 }
 
 function startServer(wifiStatus) {
