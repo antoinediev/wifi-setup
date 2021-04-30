@@ -154,6 +154,7 @@ function startServer(wifiStatus) {
 function getIp() {
   var ip = "";
   while (ip == "") {
+    console.log("On cherche une IP")
     const nets = networkInterfaces();
     const results = Object.create(null); // Or just '{}', an empty object
 
