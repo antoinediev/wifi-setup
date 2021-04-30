@@ -132,14 +132,15 @@ function startServer(wifiStatus) {
   // XXX: for first-time this is on an open access point.
 
   io.on('connection', (socket) =>{
-    setTimeout(wifi.getIPAddress().then(results => {
+    setTimeout(function(){ console.log("Wait IP") }, 5000);
+    wifi.getIPAddress().then(results => {
       addressIp = results;
       console.log("ip : " + addressIp)
       io.emit('ip',addressIp);
       qrcode.toDataURL("http://"+addressIp+"/loginBoardy",{width: 400},function(err,url){
         io.emit('qrcode',url);
       });
-    }), 5000);
+    })
  } )
 
   server.listen(80, function () {
