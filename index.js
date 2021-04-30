@@ -170,8 +170,8 @@ function getIp() {
       }
     }
     console.log(results);
-    if(results["wlan0"]!=""){
-      ip = results["wlan0"];
+    if(results.wlan0 !="" && results.wlan0 != null){
+      ip = results.wlan0;
     }
   }
 }
