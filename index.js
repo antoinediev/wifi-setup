@@ -165,6 +165,7 @@ function getIp() {
             results[name] = [];
           }
           results[name].push(net.address);
+          console.log(results);
         }
       }
     }
