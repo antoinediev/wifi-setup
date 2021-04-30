@@ -17,7 +17,7 @@ const { networkInterfaces } = require('os');
 // The Edison device can't scan for wifi networks while in AP mode, so
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
-
+openDashboard("/home/pi/wifi-setup/templates/load.html");
 startServer();
 // Wait until we have a working wifi connection. Retry every 3 seconds up
 // to 10 times. If we are connected, then start just start the next stage
