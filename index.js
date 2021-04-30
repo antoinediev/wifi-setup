@@ -167,8 +167,7 @@ function getIp() {
             if(name == "wlan0"){
               console.log("On est dans le Wlan 0")
               if(net.address != null && net.address != ""){
-                ip = net.address;
-                console.log("net.address : " + net.address)
+                return net.address;
               }
               console.log("ip : "+ip)
             }
