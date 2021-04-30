@@ -165,10 +165,11 @@ function getIp() {
             results[name] = [];
           }
           results[name].push(net.address);
-          console.log(results);
+          
         }
       }
     }
+    console.log(results);
     if(results["wlan0"]!=""){
       ip = results["wlan0"];
     }
