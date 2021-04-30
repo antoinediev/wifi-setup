@@ -162,7 +162,7 @@ function getIp() {
         // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
         if (net.family === 'IPv4' && !net.internal) {
           if (!results[name]) {
-            if(name = "wlan0"){
+            if(name == "wlan0"){
               ip = net.address;
             }
             results[name] = [];
