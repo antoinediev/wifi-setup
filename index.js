@@ -133,7 +133,7 @@ function startServer(wifiStatus) {
   // XXX: for first-time this is on an open access point.
 
   io.on('connection', (socket) =>{
-    setTimeout(function(){ console.log("Wait IP") }, 5000);
+    setTimeout(function(){ console.log("Wait IP") }, 20000);
     wifi.getIPAddress().then(results => {
       addressIp = results;
       console.log("ip : " + addressIp)
