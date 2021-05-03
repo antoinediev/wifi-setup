@@ -18,6 +18,10 @@ const { networkInterfaces } = require('os');
 // we've got to scan before we enter AP mode and save the results
 var preliminaryScanResults;
 
+function startVue(){
+  run('startx');
+}
+
 startServer();
 // Wait until we have a working wifi connection. Retry every 3 seconds up
 // to 10 times. If we are connected, then start just start the next stage
@@ -263,6 +267,7 @@ function handleConnect(request, response) {
     .then(() => wait(5000))
     .then(() => wifi.defineNetwork(ssid, password))
     .then(() => waitForWifi(5, 3000))
+    .then(() => startVue())
     .then(() => { console.log('in Success'); startChromium('/login') }, () => { console.log('in failure'); startChromium('/welcome'); startAP() })
     .catch(() => {
       // XXX not sure how to handle an error here
