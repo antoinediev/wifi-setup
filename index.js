@@ -269,7 +269,7 @@ function handleConnect(request, response) {
     .then(() => wifi.defineNetwork(ssid, password))
     .then(() => waitForWifi(5, 3000))
     .then(() => startVue())
-    .then(() => { console.log('in Success'); startChromium('/login') }, () => { console.log('in failure'); startChromium('/welcome'); startAP() })
+    .then(() => { console.log('in Success'); startVue();startChromium('/login') }, () => { console.log('in failure'); startChromium('/welcome'); startAP() })
     .catch(() => {
       // XXX not sure how to handle an error here
       console.error("Failed to bring up wifi in handleConnect()");
