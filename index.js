@@ -203,7 +203,7 @@ function loginBoardy(request, response) {
 
   var email = request.body.email;
   var password = request.body.password;
-  axios.post('https://boardy.dev-martin.com/api/auth', {
+  axios.post('https://boardy-app.com/api/auth', {
     email: email,
     password: password
   })
