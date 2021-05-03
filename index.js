@@ -110,7 +110,7 @@ function startChromium(path) {
 
 function openDashboard(path) {
   console.log('on veut ouvrir: ' + path)
-  run('sudo -u pi DISPLAY=:0 chromium-browser --kiosk ' + path)
+  run('sudo -u pi DISPLAY=:0 chromium-browser ' + path)
 }
 
 function startServer(wifiStatus) {
