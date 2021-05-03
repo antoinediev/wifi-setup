@@ -19,6 +19,7 @@ const { networkInterfaces } = require('os');
 var preliminaryScanResults;
 
 function startVue(){
+  console.log("Démarage de la vue")
   run('startx');
 }
 
