@@ -22,9 +22,8 @@ function startVue(){
   console.log("Démarage de la vue")
   run('startx');
 }
-
-startServer();
 startVue();
+startServer();
 // Wait until we have a working wifi connection. Retry every 3 seconds up
 // to 10 times. If we are connected, then start just start the next stage
 // and exit. But if we never get a wifi connection, go into AP mode.
