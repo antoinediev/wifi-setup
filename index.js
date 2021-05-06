@@ -221,6 +221,7 @@ function loginBoardy(request, response) {
       }
     })
     .catch(error => {
+      response.send("error")
       console.error(error)
     })
 }
